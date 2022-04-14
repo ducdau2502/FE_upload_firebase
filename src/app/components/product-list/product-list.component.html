@@ -1,0 +1,72 @@
+<div class="search-hero">
+  <input class="form-control" type="text" name="search" [(ngModel)]="searchText" (input)="search()" placeholder="&#61442;  Start searching for a hero by id or name or country">
+</div>
+
+<table>
+  <tr>
+    <td>Name</td>
+    <td>Price</td>
+    <td>Description</td>
+    <td>Image</td>
+    <td>Category</td>
+    <td>Edit</td>
+    <td>Delete</td>
+  </tr>
+  <tr *ngFor="let p of products">
+    <td>
+      {{p.name}}
+    </td>
+    <td>
+      {{p.price}}
+    </td>
+    <td>
+      <img src="{{p.url}}" style="max-width: 100px; height: auto" alt="Loi">
+    </td>
+    <td>
+      {{p.description}}
+    </td>
+    <td>
+      {{p.category?.name}}
+    </td>
+    <td><button (click)="getProduct(p.id)">Edit</button></td>
+    <td><button (click)="deleteProduct(p.id)">Delete</button></td>
+  </tr>
+</table>
+
+<div id="myModal" class="modal">
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" (click)="cloneModal()">&times;</span>
+      <h2 id="modalHeader"></h2>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="createForm">
+        <label for="name">Name: </label>
+        <input id="name" formControlName="name">
+        <br>
+        <label for="price">Price: </label>
+        <input id="price" formControlName="price">
+        <br>
+        <label for="description">Description: </label>
+        <input id="description" formControlName="description">
+        <br>
+        <label for="name">Category: </label>
+        <select formControlName="category">
+          <option *ngFor="let c of categories" value="{{c?.id}}">{{c?.name}}</option>
+        </select>
+        <br>
+        <label for="image">Image: </label>
+        <input type="file" id="image" (change)="onFileSelected($event)" name="image" autocomplete="off" />
+        <br>
+        <button id="saveProduct" type="submit" (click)="saveProduct()"></button>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div>
+  </div>
+
+</div>
+
+<button (click)="openModal()">Create</button>
